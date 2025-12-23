@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static home.work.utils.Helpers.*;
+import static home.work.utils.Helpers.waitBy;
 
 public class WikipediaMobilePage {
     public static final By SEARCH_STRING_EDIT = By.xpath("//android.widget.EditText");
@@ -41,11 +41,11 @@ public class WikipediaMobilePage {
     }
 
     public void changeLanguage(String lang) {
-        waitBy(wait, By.xpath("//android.widget.TextView[@text=\""+lang.toUpperCase()+"\"]")).click();
+        waitBy(wait, By.xpath("//android.widget.TextView[@text=\"" + lang.toUpperCase() + "\"]")).click();
     }
 
     public String getArticleTitle(String text) {
-        var title = waitBy(wait, By.xpath("//android.webkit.WebView[@text=\""+text+"\"]"));
+        var title = waitBy(wait, By.xpath("//android.webkit.WebView[@text=\"" + text + "\"]"));
         return title.getText();
     }
 
@@ -57,8 +57,12 @@ public class WikipediaMobilePage {
                                 + ".scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
                 ));
                 return;
-            } catch (Exception ignored) {}
-            try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
+            } catch (Exception ignored) {
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {
+            }
         }
     }
 
@@ -72,7 +76,7 @@ public class WikipediaMobilePage {
     public void langSearch(String lang) {
         waitBy(wait, SEARCH_LANG_BUTTON).click();
         waitBy(wait, SEARCH_STRING_EDIT).sendKeys(lang);
-        waitBy(wait, By.xpath("//android.widget.TextView[@text=\""+lang+"\"]")).click();
+        waitBy(wait, By.xpath("//android.widget.TextView[@text=\"" + lang + "\"]")).click();
     }
 
     public void skipOnboarding() {

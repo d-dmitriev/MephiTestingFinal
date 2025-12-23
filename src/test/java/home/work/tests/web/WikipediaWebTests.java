@@ -1,11 +1,13 @@
 package home.work.tests.web;
 
 import home.work.config.ConfigReader;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-import org.testng.annotations.*;
 import home.work.pages.web.WikipediaHomePage;
 import home.work.utils.WebDriverFactory;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class WikipediaWebTests {
     public static final String SEARCH_JAVA = "Java";

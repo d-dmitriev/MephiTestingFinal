@@ -1,11 +1,13 @@
 package home.work.tests.mobile;
 
+import home.work.pages.mobile.WikipediaMobilePage;
 import home.work.utils.MobileDriverFactory;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.annotations.*;
-import home.work.pages.mobile.WikipediaMobilePage;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 
@@ -46,7 +48,7 @@ public class WikipediaMobileTests {
         page.scrollAndCheckSection(SEARCH_ETYMOLOGY);
         // Проверим, что элемент с текстом "History" теперь виден
         Assert.assertTrue(
-                driver.findElement(By.xpath("//*[contains(@text, '"+SEARCH_ETYMOLOGY+"')]")).isDisplayed()
+                driver.findElement(By.xpath("//*[contains(@text, '" + SEARCH_ETYMOLOGY + "')]")).isDisplayed()
         );
     }
 
