@@ -3,13 +3,11 @@ package home.work.tests.mobile;
 import home.work.utils.MobileDriverFactory;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import home.work.pages.mobile.WikipediaMobilePage;
 
 import java.net.MalformedURLException;
-import java.time.Duration;
 
 import static home.work.utils.Helpers.sleep;
 
