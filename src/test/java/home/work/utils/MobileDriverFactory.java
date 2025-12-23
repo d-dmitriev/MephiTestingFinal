@@ -8,7 +8,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-// utils/MobileDriverFactory.java
 public class MobileDriverFactory {
     public static AppiumDriver createDriver() throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
