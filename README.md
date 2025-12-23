@@ -1,4 +1,4 @@
-# 🧪 UI Automation Project: Wikipedia Web & Mobile & API Tests
+# 🧪 UI Automation Project: Wikipedia Web, Mobile & API Tests
 
 Проект автоматизированных UI-тестов для:
 
@@ -52,12 +52,6 @@
 mvn test -Dtest=WikipediaWebTests
 ```
 
-Или через TestNG XML:
-
-```bash
-mvn test
-```
-
 > Поддерживаемые браузеры: **Chrome**, **Firefox** (указывается в `config.properties`).
 
 ---
@@ -67,11 +61,22 @@ mvn test
 **Предварительно:**
 
 1. Запустите эмулятор Android (например, через AVD Manager).
-2. Убедитесь, что приложение **Wikipedia Alpha** установлено:
-   ```bash
-   adb install app-alpha-universal-release.apk
-   ```
+```bash
+emulator -avd Pixel_9
+```
+
+2. Убедитесь, что приложение **Wikipedia Alpha** установлено. Скачать последнюю версию можно [тут](https://github.com/wikimedia/apps-android-wikipedia/releases/tag/latest):
+```bash
+adb -s emulator-5554 install app-alpha-universal-release.apk
+```
 3. Запустите **Appium Server** (через Appium Desktop или CLI: `appium`).
+
+```bash
+appium driver install uiautomator2
+appium driver list --installed 
+appium plugin install inspector
+appium --use-plugins=inspector --allow-cors
+```
 
 **Запуск:**
 
@@ -88,7 +93,7 @@ mvn test -Dtest=WikipediaMobileTests
 
 ---
 
-### 3. **Запуск API-тестов (опционально)**
+### 3. **Запуск API-тестов**
 
 ```bash
 mvn test -Dtest=WikipediaAPITests
@@ -98,20 +103,22 @@ mvn test -Dtest=WikipediaAPITests
 
 ## 📊 Отчёты
 
-После выполнения TestNG генерирует HTML-отчёты в папке:
+После выполнения через Maven:
+
+```bash
+mvn clean test
+```
+
+TestNG-отчёты генерируются в:
 
 ```
-test-output/
-└── index.html
+target/surefire-reports/
+├── index.html
+├── emailable-report.html
+└── *.xml
 ```
 
-Пример структуры отчёта:
-
-- **Passed**: `testSearchFunctionality`, `testLanguageSwitch`
-- **Failed**: (если есть) с полным стек-трейсом
-- **Duration**: время выполнения каждого теста
-
-Также можно интегрировать с **Allure** или **ReportPortal** (не входит в текущую реализацию).
+> 💡 Вы можете открыть index.html в браузере для просмотра результатов.
 
 ---
 
@@ -164,7 +171,7 @@ app.activity=org.wikipedia.main.MainActivity
 | **Chrome**           | 143.0.7499.147               |
 | **Firefox**          | 146.0.1                      |
 | **Android Emulator** | Pixel 9, API 36 (Android 16) |
-| **Wikipedia Alpha**  | 50562-alpha-2025-12-08       |
+| **Wikipedia Alpha**  | 50564-alpha-2025-12-22       |
 | **Appium**           | 3.1.2                        |
 
 ---
