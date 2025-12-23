@@ -43,7 +43,7 @@ public class WikipediaMobileTests {
         page.clickSearch();
         page.searchFor(SEARCH_JAVA);
         page.skipPopup();
-        sleep();
+//        sleep();
         page.scrollAndCheckSection(SEARCH_ETYMOLOGY);
         // Проверим, что элемент с текстом "History" теперь виден
         Assert.assertTrue(
