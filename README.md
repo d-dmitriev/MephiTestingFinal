@@ -14,7 +14,7 @@
 
 ## Требования
 
-- JDK 11+
+- JDK 21+
 - Maven
 - Android SDK + эмулятор (API 33 рекомендуется)
 - Appium Server (4723 порт)

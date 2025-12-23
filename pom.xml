@@ -16,6 +16,7 @@
         <testng.version>7.10.1</testng.version>
         <appium.version>9.2.2</appium.version>
         <webdrivermanager.version>5.9.2</webdrivermanager.version>
+        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
     </properties>
 
     <dependencies>
@@ -71,6 +72,14 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <release>21</release>
+                </configuration>
+            </plugin>
             <!-- Maven Surefire Plugin для запуска тестов TestNG -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
