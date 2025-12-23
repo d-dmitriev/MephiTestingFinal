@@ -26,8 +26,8 @@ public class WikipediaMobilePage {
         waitBy(wait, AppiumBy.id("page_list_item_title")).click();
     }
 
-    public void changeLanguageRu() {
-        waitBy(wait, AppiumBy.xpath("//android.widget.HorizontalScrollView[@resource-id=\"org.wikipedia.alpha:id/horizontal_scroll_languages\"]/android.widget.LinearLayout/android.widget.LinearLayout[2]")).click();
+    public void changeLanguage(String lang) {
+        waitBy(wait, AppiumBy.xpath("//android.widget.TextView[@text=\""+lang.toUpperCase()+"\"]")).click();
     }
 
     public String getArticleTitle(String text) {
@@ -43,15 +43,15 @@ public class WikipediaMobilePage {
 
     public void addLanguage(String lang) {
         waitBy(wait, AppiumBy.id("addLanguageButton")).click();
-        waitBy(wait, AppiumBy.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.wikipedia.alpha:id/wikipedia_languages_recycler\"]/android.widget.LinearLayout[3]")).click();
+        waitBy(wait, AppiumBy.xpath("//android.widget.TextView[@text=\"Add language\"]")).click();
         langSearch(lang);
         driver.navigate().back();
     }
 
     public void langSearch(String lang) {
-        waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[3]")).click();
+        waitBy(wait, AppiumBy.xpath("//android.view.View[@content-desc=\"Search\"]")).click();
         waitBy(wait, AppiumBy.xpath("//android.widget.EditText")).sendKeys(lang);
-        waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.view.View")).click();
+        waitBy(wait, AppiumBy.xpath("//android.widget.TextView[@text=\""+lang+"\"]")).click();
     }
 
     public void skipOnboarding() {
