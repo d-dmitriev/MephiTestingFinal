@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import static home.work.utils.Helpers.sleep;
 
 public class WikipediaMobileTests {
+    public static final String RUSSIAN = "russian";
     private AppiumDriver driver;
     private WikipediaMobilePage page;
 
@@ -47,27 +48,27 @@ public class WikipediaMobileTests {
 
     @Test
     public void testLanguageChange() {
-        page.addLanguage("russian");
+        page.addLanguage(RUSSIAN);
         page.skipOnboarding();
         page.clickSearch();
         page.searchFor("Java");
         page.skipPopup();
         page.clickLanguages();
-        page.langSearch("russian");
+        page.langSearch(RUSSIAN);
         String title = page.getArticleTitle("Ява");
-        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Appium'");
+        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Ява'");
     }
 
     @Test
     public void testSearchRu() {
-        page.addLanguage("russian");
+        page.addLanguage(RUSSIAN);
         page.skipOnboarding();
         page.clickSearch();
         page.changeLanguageRu();
         page.searchFor("Ява");
         page.skipPopup();
         String title = page.getArticleTitle("Ява");
-        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Appium'");
+        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Ява'");
     }
 
     @AfterMethod
