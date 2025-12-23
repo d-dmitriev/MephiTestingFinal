@@ -27,4 +27,8 @@ public class Helpers {
         System.out.println("!!! exists " + id + " " + r);
         return r;
     }
+
+    public static boolean isElementPresent(WebDriver driver, By by) {
+        return !driver.findElements(by).isEmpty();
+    }
 }

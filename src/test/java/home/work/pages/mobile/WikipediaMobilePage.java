@@ -5,12 +5,12 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.Map;
 
 import static home.work.utils.Helpers.*;
 
@@ -41,6 +41,11 @@ public class WikipediaMobilePage {
                 driver.navigate().back();
             }
         }
+        wait.until(d -> {
+            if (existsById(d, "nav_tab_explore")) return true;
+            d.navigate().back();
+            return false;
+        });
     }
 
     public void openSearch() {
@@ -63,24 +68,8 @@ public class WikipediaMobilePage {
     }
 
     public void searchFor(String query) {
-//        if (searchContainerExists()) {
-//            searchContainer.click();
-//        } else {
-//            if (findInArticleExists())
-//                driver.navigate().back();
-//        }
-        var searchInput = waitBy(wait, AppiumBy.id("search_src_text"));
-        searchInput.sendKeys(query);
-//            searchContainer.click();
-//            boolean cardExists = !driver.findElements(AppiumBy.id("search_card")).isEmpty();
-//            if (cardExists)
-//                searchCard.click();
-//        driver.hideKeyboard();
-    }
-
-    public void clickFirstResult() {
-        var firstResult = waitBy(wait, AppiumBy.id("page_list_item_title"));
-        firstResult.click();
+        waitBy(wait, AppiumBy.id("search_src_text")).sendKeys(query);
+        waitBy(wait, AppiumBy.id("page_list_item_title")).click();
     }
 
     public void changeLanguageEn() {
@@ -97,13 +86,7 @@ public class WikipediaMobilePage {
     }
 
     public void changeLanguageRu() {
-        if (existsById(driver, "search_container")) {
-            searchContainer.click();
-        }
-        var langElement = waitBy(wait, AppiumBy.xpath("//android.widget.HorizontalScrollView[@resource-id=\"org.wikipedia.alpha:id/horizontal_scroll_languages\"]/android.widget.LinearLayout/android.widget.LinearLayout[2]"));
-        System.out.println("!!! changeLanguageRu " + langElement.isEnabled());
-        if (!langElement.isSelected())
-            langElement.click();
+        waitBy(wait, AppiumBy.xpath("//android.widget.HorizontalScrollView[@resource-id=\"org.wikipedia.alpha:id/horizontal_scroll_languages\"]/android.widget.LinearLayout/android.widget.LinearLayout[2]")).click();
     }
 
     public String getArticleTitle(String text) {
@@ -112,11 +95,13 @@ public class WikipediaMobilePage {
     }
 
     public void scrollAndCheckSection(String sectionText) {
-        driver.findElement(AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector().scrollable(true)).scrollForward();" +
-                        "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
+//        driver.findElement(AppiumBy.androidUIAutomator(
+//                "new UiScrollable(new UiSelector().scrollable(true)).scrollForward();" +
+//                        "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
+//        ));
+        driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" +
+                ".scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
         ));
-        // Утверждение будет в тесте
     }
 
     public void changeLanguageTo(String lang) {
@@ -128,7 +113,42 @@ public class WikipediaMobilePage {
     }
 
     public void startMain() {
-        Map<String, Object> params = Map.of("component", "org.wikipedia.alpha/org.wikipedia.main.MainActivity");
-        driver.executeScript("mobile: startActivity", params);
+//        Map<String, Object> params = Map.of("component", "org.wikipedia.alpha/org.wikipedia.main.MainActivity");
+//        driver.executeScript("mobile: startActivity", params);
+    }
+
+    public void addLanguage(String lang) {
+        waitBy(wait, AppiumBy.id("addLanguageButton")).click();
+        waitBy(wait, AppiumBy.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.wikipedia.alpha:id/wikipedia_languages_recycler\"]/android.widget.LinearLayout[3]")).click();
+        langSearch(lang);
+        driver.navigate().back();
+    }
+
+
+    public void langSearch(String lang) {
+        waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[3]")).click();
+        waitBy(wait, AppiumBy.xpath("//android.widget.EditText")).sendKeys(lang);
+        waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.view.View")).click();
+    }
+
+    public void skipOnboarding() {
+        waitBy(wait, AppiumBy.id("fragment_onboarding_skip_button")).click();
+    }
+
+    public void skipPopup() {
+        try {
+            if (waitBy(wait, AppiumBy.id("dialogContainer")).isDisplayed()) {
+                waitBy(wait, AppiumBy.id("closeButton")).click();
+            }
+        } catch (TimeoutException ignored) {
+        }
+    }
+
+    public void clickSearch() {
+        waitBy(wait, AppiumBy.id("search_container")).click();
+    }
+
+    public void clickLanguages() {
+        waitBy(wait, AppiumBy.id("page_language")).click();
     }
 }

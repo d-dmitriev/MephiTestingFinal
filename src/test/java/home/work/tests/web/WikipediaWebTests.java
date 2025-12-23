@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import home.work.pages.web.WikipediaHomePage;
-import home.work.utils.DriverFactory;
+import home.work.utils.WebDriverFactory;
 
 import static home.work.utils.Helpers.sleep;
 
@@ -16,7 +16,7 @@ public class WikipediaWebTests {
 //    @BeforeClass
     @BeforeMethod
     public void setUp() {
-        driver = DriverFactory.getDriver(ConfigReader.getProperty("browser"));
+        driver = WebDriverFactory.getDriver(ConfigReader.getProperty("browser"));
         homePage = new WikipediaHomePage(driver);
     }
 
