@@ -69,7 +69,7 @@ public class WikipediaMobileTests {
 
     @DataProvider
     public Object[][] languages() {
-        return new Object[][] {
+        return new Object[][]{
                 {LANG_BELARUS, SEARCH_JAVA_RU},
                 {LANG_RUSSIAN_RU, SEARCH_JAVA_RU}
         };
