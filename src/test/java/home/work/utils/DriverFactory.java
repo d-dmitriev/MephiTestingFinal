@@ -38,12 +38,4 @@ public class DriverFactory {
 
         return driver;
     }
-
-    public static void sleep() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

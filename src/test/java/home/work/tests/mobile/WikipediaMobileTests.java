@@ -16,7 +16,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
 
-import static home.work.utils.DriverFactory.sleep;
+import static home.work.utils.Helpers.sleep;
 import static home.work.utils.Helpers.waitBy;
 
 public class WikipediaMobileTests {
@@ -39,26 +39,28 @@ public class WikipediaMobileTests {
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), caps);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         page = new WikipediaMobilePage(driver);
+
+        page.backFromArticle();
+        page.openSearch();
+        page.deleteHistory();
     }
 
     @Test
     public void testSearchAndOpenArticle() {
         page.startMain();
         sleep();
+        page.changeLanguageEn();
         page.searchFor("Appium");
-//        sleep();
         page.clickFirstResult();
-//        sleep();
-        String title = page.getArticleTitle();
+        String title = page.getArticleTitle("Appium");
         Assert.assertTrue(title.toLowerCase().contains("appium"), "Article title should contain 'Appium'");
     }
 
     @Test
     public void testScrollToSection() {
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("id")));
         page.startMain();
         sleep();
+        page.changeLanguageEn();
         page.searchFor("Java");
 //        sleep();
         page.clickFirstResult();
@@ -70,25 +72,40 @@ public class WikipediaMobileTests {
         );
     }
 
+//    @Test
+//    public void testLanguageChange() {
+//        page.startMain();
+//        sleep();
+//        WebElement language = waitBy(wait, AppiumBy.id("org.wikipedia.alpha:id/page_language"));
+//        language.click();
+//        WebElement search = waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[3]"));
+//        sleep();
+//        search.click();
+//        WebElement text = waitBy(wait, AppiumBy.xpath("//android.widget.EditText"));
+//        text.sendKeys("russian");
+//        sleep();
+//        WebElement firstElement = waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.view.View"));
+//        firstElement.click();
+//        String title = page.getArticleTitle("Ява");
+//        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Appium'");
+////        Assert.assertTrue(
+////                driver.findElement(By.xpath("//android.widget.TextView[@text='All languages']")).isDisplayed()
+////        );
+//        sleep();
+//        driver.navigate().back();
+//    }
+
     @Test
-    public void testLanguageChange() {
-        Map<String, Object> params = Map.of("component", "org.wikipedia.alpha/org.wikipedia.main.MainActivity");
-        driver.executeScript("mobile: startActivity", params);
+    public void testSearchRu() {
+        page.startMain();
         sleep();
-        // Пример: переключиться на русский (требует доработки под UI)
-        // Для упрощения — опустим или сделаем более простой сценарий
-        // Вместо этого — проверим, что меню открывается
-        WebElement language = waitBy(wait, AppiumBy.id("org.wikipedia.alpha:id/page_language"));
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement language = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("org.wikipedia.alpha:id/page_language")));
-//        WebElement language = driver.findElement(By.id("org.wikipedia.alpha:id/page_language"));
-        language.click();
+        page.changeLanguageRu();
         sleep();
-        Assert.assertTrue(
-                driver.findElement(By.xpath("//android.widget.TextView[@text='All languages']")).isDisplayed()
-        );
+        page.searchFor("Ява");
         sleep();
-        driver.navigate().back();
+        page.clickFirstResult();
+        String title = page.getArticleTitle("Ява");
+        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Appium'");
     }
 
 //    @AfterClass

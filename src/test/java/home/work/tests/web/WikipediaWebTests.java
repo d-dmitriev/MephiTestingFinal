@@ -7,7 +7,7 @@ import org.testng.annotations.*;
 import home.work.pages.web.WikipediaHomePage;
 import home.work.utils.DriverFactory;
 
-import static home.work.utils.DriverFactory.sleep;
+import static home.work.utils.Helpers.sleep;
 
 public class WikipediaWebTests {
     private WebDriver driver;

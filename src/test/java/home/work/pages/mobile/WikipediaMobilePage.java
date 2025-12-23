@@ -12,11 +12,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Map;
 
-import static home.work.utils.Helpers.waitBy;
+import static home.work.utils.Helpers.*;
 
 public class WikipediaMobilePage {
-    private AppiumDriver driver;
-    private WebDriverWait wait;
+    private final AppiumDriver driver;
+    private final WebDriverWait wait;
 
     @AndroidFindBy(id = "search_container")
     private WebElement searchContainer;
@@ -24,8 +24,10 @@ public class WikipediaMobilePage {
     private WebElement searchTab;
     @AndroidFindBy(id = "search_card")
     private WebElement searchCard;
-    @AndroidFindBy(id = "search_src_text")
-    private WebElement searchInput;
+//    @AndroidFindBy(id = "search_src_text")
+//    private WebElement searchInput;
+    @AndroidFindBy(id = "history_delete")
+    private WebElement historyDelete;
 
     public WikipediaMobilePage(AppiumDriver driver) {
         this.driver = driver;
@@ -33,16 +35,44 @@ public class WikipediaMobilePage {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
+    public void backFromArticle() {
+        if (existsById(driver, "page_find_in_article")) {
+            driver.navigate().back();
+            sleep();
+            driver.navigate().back();
+            sleep();
+            driver.navigate().back();
+        }
+    }
+
+    public void openSearch() {
+        if(searchTab.isEnabled() && !searchTab.isSelected()){
+            searchTab.click();
+        }
+    }
+
+    public void deleteHistory() {
+        if(existsById(driver, "history_delete") && historyDelete.isEnabled()) {
+            historyDelete.click();
+            var bar = waitBy(wait, AppiumBy.id("action_bar_root"));
+            if(bar.isEnabled()) {
+                var button = waitBy(wait, AppiumBy.xpath("//android.widget.Button[@resource-id=\"android:id/button1\"]"));
+                if (button.isEnabled()) {
+                    button.click();
+                }
+            }
+        }
+    }
+
     public void searchFor(String query) {
-        if (searchContainerExists()) {
-            searchContainer.click();
-        } else {
-            if (findInArticleExists())
-                driver.navigate().back();
-        }
-        if (searchInput.isEnabled()) {
-            searchInput.sendKeys(query);
-        }
+//        if (searchContainerExists()) {
+//            searchContainer.click();
+//        } else {
+//            if (findInArticleExists())
+//                driver.navigate().back();
+//        }
+        var searchInput = waitBy(wait, AppiumBy.id("search_src_text"));
+        searchInput.sendKeys(query);
 //            searchContainer.click();
 //            boolean cardExists = !driver.findElements(AppiumBy.id("search_card")).isEmpty();
 //            if (cardExists)
@@ -51,30 +81,39 @@ public class WikipediaMobilePage {
     }
 
     public void clickFirstResult() {
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement firstResult = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("page_list_item_title")));
         var firstResult = waitBy(wait, AppiumBy.id("page_list_item_title"));
-//        WebElement firstResult = driver.findElement(By.xpath("(//android.widget.TextView[@resource-id='org.wikipedia.alpha:id/page_list_item_title'])[1]"));
         firstResult.click();
     }
 
-    public String getArticleTitle() {
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement title = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.xpath("(//android.widget.TextView[@text='Appium'])[1]")));
-        var title = waitBy(wait, AppiumBy.xpath("(//android.widget.TextView[@text='Appium'])[1]"));
-//        WebElement title = driver.findElement(By.xpath("(//android.widget.TextView[@text='Appium'])[1]"));
+    public void changeLanguageEn() {
+        if (existsById(driver, "search_container")) {
+            searchContainer.click();
+        } else {
+            if (existsById(driver, "page_find_in_article"))
+                driver.navigate().back();
+        }
+        var langElement = waitBy(wait, AppiumBy.xpath("//android.widget.HorizontalScrollView[@resource-id=\"org.wikipedia.alpha:id/horizontal_scroll_languages\"]/android.widget.LinearLayout/android.widget.LinearLayout[1]"));
+        System.out.println("!!! changeLanguageEn " + langElement.isEnabled());
+        if (!langElement.isSelected())
+            langElement.click();
+    }
+
+    public void changeLanguageRu() {
+        if (existsById(driver, "search_container")) {
+            searchContainer.click();
+        }
+        var langElement = waitBy(wait, AppiumBy.xpath("//android.widget.HorizontalScrollView[@resource-id=\"org.wikipedia.alpha:id/horizontal_scroll_languages\"]/android.widget.LinearLayout/android.widget.LinearLayout[2]"));
+        System.out.println("!!! changeLanguageRu " + langElement.isEnabled());
+        if (!langElement.isSelected())
+            langElement.click();
+    }
+
+    public String getArticleTitle(String text) {
+        var title = waitBy(wait, AppiumBy.xpath("//android.webkit.WebView[@text=\""+text+"\"]"));
         return title.getText();
     }
 
     public void scrollAndCheckSection(String sectionText) {
-//        driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" +
-//                        ".scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
-//        ));
-//        Map<String, Object> args = Map.of(
-//                "strategy", "-android uiautomator",
-//                "selector", "new UiSelector().text(\"" + sectionText + "\")"
-//        );
-//        driver.executeScript("mobile: scrollToElement", args);
         driver.findElement(AppiumBy.androidUIAutomator(
                 "new UiScrollable(new UiSelector().scrollable(true)).scrollForward();" +
                         "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
@@ -93,13 +132,5 @@ public class WikipediaMobilePage {
     public void startMain() {
         Map<String, Object> params = Map.of("component", "org.wikipedia.alpha/org.wikipedia.main.MainActivity");
         driver.executeScript("mobile: startActivity", params);
-    }
-
-    private boolean findInArticleExists() {
-        return !driver.findElements(AppiumBy.id("page_find_in_article")).isEmpty();
-    }
-
-    private boolean searchContainerExists() {
-        return !driver.findElements(AppiumBy.id("search_container")).isEmpty();
     }
 }
