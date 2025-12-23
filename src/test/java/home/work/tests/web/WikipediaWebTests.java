@@ -7,13 +7,16 @@ import org.testng.annotations.*;
 import home.work.pages.web.WikipediaHomePage;
 import home.work.utils.WebDriverFactory;
 
-import static home.work.utils.Helpers.sleep;
-
 public class WikipediaWebTests {
+    public static final String SEARCH_JAVA = "Java";
+    public static final String SEARCH_PYTHON = "Python";
+    public static final String SEARCH_SELENIUM = "Selenium";
+    public static final String LANG_CODE = "ru";
+    public static final String RU_WIKIPEDIA_ORG = "ru.wikipedia.org";
+
     private WebDriver driver;
     private WikipediaHomePage homePage;
 
-//    @BeforeClass
     @BeforeMethod
     public void setUp() {
         driver = WebDriverFactory.getDriver(ConfigReader.getProperty("browser"));
@@ -29,29 +32,28 @@ public class WikipediaWebTests {
     @Test
     public void testSearchFunctionality() {
         homePage.open();
-        homePage.searchFor("Selenium");
-        Assert.assertTrue(homePage.getPageTitle().contains("Selenium"), "Page title should contain 'Selenium'");
+        homePage.searchFor(SEARCH_SELENIUM);
+        Assert.assertTrue(homePage.getPageTitle().contains(SEARCH_SELENIUM), String.format("Page title should contain '%s'", SEARCH_SELENIUM));
     }
 
     @Test
     public void testLanguageSwitch() {
         homePage.open();
-        homePage.selectLanguage("ru");
-        Assert.assertTrue(driver.getCurrentUrl().contains("ru.wikipedia.org"), "URL should contain 'ru.wikipedia.org'");
+        homePage.selectLanguage(LANG_CODE);
+        Assert.assertTrue(driver.getCurrentUrl().contains(RU_WIKIPEDIA_ORG), String.format("URL should contain '%s'", RU_WIKIPEDIA_ORG));
     }
 
     @Test
     public void testMultipleSearches() {
         homePage.open();
-        homePage.searchFor("Java");
-        Assert.assertTrue(homePage.getPageTitle().contains("Java"));
-        sleep();
+        homePage.searchFor(SEARCH_JAVA);
+        Assert.assertTrue(homePage.getPageTitle().contains(SEARCH_JAVA));
+
         homePage.open();
-        homePage.searchFor("Python");
-        Assert.assertTrue(homePage.getPageTitle().contains("Python"));
+        homePage.searchFor(SEARCH_PYTHON);
+        Assert.assertTrue(homePage.getPageTitle().contains(SEARCH_PYTHON));
     }
 
-//    @AfterClass
     @AfterMethod
     public void tearDown() {
         if (driver != null) driver.quit();

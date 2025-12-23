@@ -3,8 +3,8 @@ package home.work.pages.mobile;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -13,6 +13,19 @@ import java.time.Duration;
 import static home.work.utils.Helpers.*;
 
 public class WikipediaMobilePage {
+    public static final By SEARCH_STRING_EDIT = By.xpath("//android.widget.EditText");
+    public static final By SEARCH_LANG_BUTTON = By.xpath("//android.view.View[@content-desc=\"Search\"]");
+    public static final By ADD_LANGUAGE_TEXT = By.xpath("//android.widget.TextView[@text=\"Add language\"]");
+
+    public static final By ADD_LANGUAGE_BUTTON = By.id("addLanguageButton");
+    public static final By SKIP_BUTTON = By.id("fragment_onboarding_skip_button");
+    public static final By DIALOG_CONTAINER = By.id("dialogContainer");
+    public static final By CLOSE_BUTTON = By.id("closeButton");
+    public static final By SEARCH_CONTAINER = By.id("search_container");
+    public static final By PAGE_LANGUAGE = By.id("page_language");
+    public static final By SEARCH_SRC_TEXT = By.id("search_src_text");
+    public static final By PAGE_LIST_ITEM_TITLE = By.id("page_list_item_title");
+
     private final AppiumDriver driver;
     private final WebDriverWait wait;
 
@@ -23,16 +36,16 @@ public class WikipediaMobilePage {
     }
 
     public void searchFor(String query) {
-        waitBy(wait, AppiumBy.id("search_src_text")).sendKeys(query);
-        waitBy(wait, AppiumBy.id("page_list_item_title")).click();
+        waitBy(wait, SEARCH_SRC_TEXT).sendKeys(query);
+        waitBy(wait, PAGE_LIST_ITEM_TITLE).click();
     }
 
     public void changeLanguage(String lang) {
-        waitBy(wait, AppiumBy.xpath("//android.widget.TextView[@text=\""+lang.toUpperCase()+"\"]")).click();
+        waitBy(wait, By.xpath("//android.widget.TextView[@text=\""+lang.toUpperCase()+"\"]")).click();
     }
 
     public String getArticleTitle(String text) {
-        var title = waitBy(wait, AppiumBy.xpath("//android.webkit.WebView[@text=\""+text+"\"]"));
+        var title = waitBy(wait, By.xpath("//android.webkit.WebView[@text=\""+text+"\"]"));
         return title.getText();
     }
 
@@ -50,36 +63,36 @@ public class WikipediaMobilePage {
     }
 
     public void addLanguage(String lang) {
-        waitBy(wait, AppiumBy.id("addLanguageButton")).click();
-        waitBy(wait, AppiumBy.xpath("//android.widget.TextView[@text=\"Add language\"]")).click();
+        waitBy(wait, ADD_LANGUAGE_BUTTON).click();
+        waitBy(wait, ADD_LANGUAGE_TEXT).click();
         langSearch(lang);
         driver.navigate().back();
     }
 
     public void langSearch(String lang) {
-        waitBy(wait, AppiumBy.xpath("//android.view.View[@content-desc=\"Search\"]")).click();
-        waitBy(wait, AppiumBy.xpath("//android.widget.EditText")).sendKeys(lang);
-        waitBy(wait, AppiumBy.xpath("//android.widget.TextView[@text=\""+lang+"\"]")).click();
+        waitBy(wait, SEARCH_LANG_BUTTON).click();
+        waitBy(wait, SEARCH_STRING_EDIT).sendKeys(lang);
+        waitBy(wait, By.xpath("//android.widget.TextView[@text=\""+lang+"\"]")).click();
     }
 
     public void skipOnboarding() {
-        waitBy(wait, AppiumBy.id("fragment_onboarding_skip_button")).click();
+        waitBy(wait, SKIP_BUTTON).click();
     }
 
     public void skipPopup() {
         try {
-            if (waitBy(wait, AppiumBy.id("dialogContainer")).isDisplayed()) {
-                waitBy(wait, AppiumBy.id("closeButton")).click();
+            if (waitBy(wait, DIALOG_CONTAINER).isDisplayed()) {
+                waitBy(wait, CLOSE_BUTTON).click();
             }
         } catch (TimeoutException ignored) {
         }
     }
 
     public void clickSearch() {
-        waitBy(wait, AppiumBy.id("search_container")).click();
+        waitBy(wait, SEARCH_CONTAINER).click();
     }
 
     public void clickLanguages() {
-        waitBy(wait, AppiumBy.id("page_language")).click();
+        waitBy(wait, PAGE_LANGUAGE).click();
     }
 }

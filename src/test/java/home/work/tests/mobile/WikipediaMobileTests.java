@@ -9,8 +9,6 @@ import home.work.pages.mobile.WikipediaMobilePage;
 
 import java.net.MalformedURLException;
 
-import static home.work.utils.Helpers.sleep;
-
 public class WikipediaMobileTests {
     public static final String LANG_RUSSIAN = "Russian";
     public static final String LANG_RUSSIAN_RU = "Русский";
@@ -18,6 +16,7 @@ public class WikipediaMobileTests {
     public static final String SEARCH_JAVA = "Java";
     public static final String SEARCH_JAVA_RU = "Ява";
     public static final String SEARCH_ETYMOLOGY = "Etymology";
+
     private AppiumDriver driver;
     private WikipediaMobilePage page;
 

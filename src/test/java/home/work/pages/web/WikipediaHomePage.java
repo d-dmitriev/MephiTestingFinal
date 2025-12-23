@@ -3,22 +3,20 @@ package home.work.pages.web;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
+import static home.work.utils.Helpers.waitBy;
+
 public class WikipediaHomePage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    public static final By SEARCH_INPUT = By.id("searchInput");
+    public static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
 
-    @FindBy(id = "searchInput")
-    private WebElement searchInput;
-
-    @FindBy(xpath = "//button[@type='submit']")
-    private WebElement searchButton;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     public WikipediaHomePage(WebDriver driver) {
         this.driver = driver;
@@ -28,12 +26,12 @@ public class WikipediaHomePage {
 
     public void open() {
         driver.get("https://www.wikipedia.org/");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("searchInput")));
+        waitBy(wait, SEARCH_INPUT);
     }
 
     public void searchFor(String query) {
-        searchInput.sendKeys(query);
-        searchButton.click();
+        waitBy(wait, SEARCH_INPUT).sendKeys(query);
+        waitBy(wait, SUBMIT_BUTTON).click();
     }
 
     public String getPageTitle() {
@@ -41,7 +39,7 @@ public class WikipediaHomePage {
     }
 
     public boolean isSearchInputVisible() {
-        return searchInput.isDisplayed();
+        return waitBy(wait, SEARCH_INPUT).isDisplayed();
     }
 
     public void selectLanguage(String langCode) {
