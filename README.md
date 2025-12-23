@@ -151,15 +151,15 @@ app.activity=org.wikipedia.main.MainActivity
 
 ## ✅ Проверено на
 
-| Платформа | Версия                                                     |
-|----------|-------------------------------------------------------------|
-| **macOS** | Sequya 15.6.1                                              |
-| **JDK** | Temurin 21                                                   |
-| **Chrome** | 143.0.7499.147                                            |
-| **Firefox** | 146.0.1                                                  |
-| **Android Emulator** | Pixel 9, API 36 (Android 16 beta)               |
-| **Wikipedia Alpha** | v2.7.50381-alpha-wikipedia (из GitHub Releases)  |
-| **Appium** | 2.6.0                                                     |
+| Платформа | Версия                       |
+|----------|------------------------------|
+| **macOS** | Sequoia 15.6.1               |
+| **JDK** | Temurin 25                   |
+| **Chrome** | 143.0.7499.147               |
+| **Firefox** | 146.0.1                      |
+| **Android Emulator** | Pixel 9, API 36 (Android 16) |
+| **Wikipedia Alpha** | 50562-alpha-2025-12-08       |
+| **Appium** | 3.1.2                        |
 
 ---
 
