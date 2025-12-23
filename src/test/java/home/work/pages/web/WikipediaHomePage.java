@@ -53,7 +53,7 @@ public class WikipediaHomePage {
     }
 
     public void selectLanguage(String langCode) {
-        WebElement langLink = driver.findElement(By.cssSelector("a[href='//" + langCode + WIKIPEDIA_ORG +"/']"));
+        WebElement langLink = driver.findElement(By.cssSelector("a[href='//" + langCode + WIKIPEDIA_ORG + "/']"));
         langLink.click();
         wait.until(ExpectedConditions.urlContains(langCode + WIKIPEDIA_ORG));
     }
