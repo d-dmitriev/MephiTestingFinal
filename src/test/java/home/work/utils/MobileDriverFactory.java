@@ -10,16 +10,16 @@ import java.net.URL;
 
 public class MobileDriverFactory {
     public static AppiumDriver createDriver() throws MalformedURLException {
-        DesiredCapabilities caps = new DesiredCapabilities();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
         // загрузка из config.properties!
-        caps.setCapability("platformName", ConfigReader.getProperty("platform.name"));
-        caps.setCapability("platformVersion", ConfigReader.getProperty("platform.version"));
-        caps.setCapability("deviceName", ConfigReader.getProperty("device.name"));
-        caps.setCapability("appPackage", ConfigReader.getProperty("app.package"));
-        caps.setCapability("appActivity", ConfigReader.getProperty("app.activity"));
-        caps.setCapability("automationName", "UiAutomator2");
-        caps.setCapability("noReset", false);
+        capabilities.setCapability("platformName", ConfigReader.getProperty("platform.name"));
+        capabilities.setCapability("platformVersion", ConfigReader.getProperty("platform.version"));
+        capabilities.setCapability("deviceName", ConfigReader.getProperty("device.name"));
+        capabilities.setCapability("appPackage", ConfigReader.getProperty("app.package"));
+        capabilities.setCapability("appActivity", ConfigReader.getProperty("app.activity"));
+        capabilities.setCapability("automationName", "UiAutomator2");
+        capabilities.setCapability("noReset", false);
 
-        return new AndroidDriver(new URL("http://127.0.0.1:4723"), caps);
+        return new AndroidDriver(new URL(ConfigReader.getProperty("remote.address")), capabilities);
     }
 }

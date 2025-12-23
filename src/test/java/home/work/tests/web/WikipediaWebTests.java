@@ -35,7 +35,7 @@ public class WikipediaWebTests {
     public void testSearchFunctionality() {
         homePage.open();
         homePage.searchFor(SEARCH_SELENIUM);
-        Assert.assertTrue(homePage.getPageTitle().contains(SEARCH_SELENIUM), String.format("Page title should contain '%s'", SEARCH_SELENIUM));
+        Assert.assertTrue(homePage.getPageHeader().contains(SEARCH_SELENIUM), String.format("Page title should contain '%s'", SEARCH_SELENIUM));
     }
 
     @Test
@@ -49,11 +49,11 @@ public class WikipediaWebTests {
     public void testMultipleSearches() {
         homePage.open();
         homePage.searchFor(SEARCH_JAVA);
-        Assert.assertTrue(homePage.getPageTitle().contains(SEARCH_JAVA));
+        Assert.assertTrue(homePage.getPageHeader().contains(SEARCH_JAVA));
 
         homePage.open();
         homePage.searchFor(SEARCH_PYTHON);
-        Assert.assertTrue(homePage.getPageTitle().contains(SEARCH_PYTHON));
+        Assert.assertTrue(homePage.getPageHeader().contains(SEARCH_PYTHON));
     }
 
     @AfterMethod

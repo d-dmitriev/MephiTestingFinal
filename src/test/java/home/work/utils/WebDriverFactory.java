@@ -1,5 +1,6 @@
 package home.work.utils;
 
+import home.work.config.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,20 +13,25 @@ public class WebDriverFactory {
     public static WebDriver getDriver(String browserName) {
         WebDriver driver;
 
+        boolean headless = Boolean.parseBoolean(ConfigReader.getProperty("browser.headless", "false"));
+
         switch (browserName.toLowerCase()) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--remote-allow-origins=*");
-                // Опционально: headless режим
-                // chromeOptions.addArguments("--headless=new");
+                if (headless) {
+                    chromeOptions.addArguments("--headless=new");
+                }
                 driver = new ChromeDriver(chromeOptions);
                 break;
 
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                // firefoxOptions.addArguments("--headless");
+                if (headless) {
+                    firefoxOptions.addArguments("--headless");
+                }
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
 

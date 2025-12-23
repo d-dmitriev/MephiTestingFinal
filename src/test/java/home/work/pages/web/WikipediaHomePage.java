@@ -12,8 +12,13 @@ import java.time.Duration;
 import static home.work.utils.Helpers.waitBy;
 
 public class WikipediaHomePage {
-    public static final By SEARCH_INPUT = By.id("searchInput");
     public static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
+
+    public static final By SEARCH_INPUT = By.id("searchInput");
+    public static final By PAGE_HEADING = By.id("firstHeading");
+
+    public static final String URL = "https://www.wikipedia.org/";
+    public static final String WIKIPEDIA_ORG = ".wikipedia.org";
 
     private final WebDriver driver;
     private final WebDriverWait wait;
@@ -25,7 +30,7 @@ public class WikipediaHomePage {
     }
 
     public void open() {
-        driver.get("https://www.wikipedia.org/");
+        driver.get(URL);
         waitBy(wait, SEARCH_INPUT);
     }
 
@@ -34,8 +39,8 @@ public class WikipediaHomePage {
         waitBy(wait, SUBMIT_BUTTON).click();
     }
 
-    public String getPageTitle() {
-        return driver.getTitle();
+    public String getPageHeader() {
+        return waitBy(wait, PAGE_HEADING).getText();
     }
 
     public boolean isSearchInputVisible() {
@@ -43,8 +48,8 @@ public class WikipediaHomePage {
     }
 
     public void selectLanguage(String langCode) {
-        WebElement langLink = driver.findElement(By.cssSelector("a[href='//" + langCode + ".wikipedia.org/']"));
+        WebElement langLink = driver.findElement(By.cssSelector("a[href='//" + langCode + WIKIPEDIA_ORG +"/']"));
         langLink.click();
-        wait.until(ExpectedConditions.urlContains(langCode + ".wikipedia.org"));
+        wait.until(ExpectedConditions.urlContains(langCode + WIKIPEDIA_ORG));
     }
 }
