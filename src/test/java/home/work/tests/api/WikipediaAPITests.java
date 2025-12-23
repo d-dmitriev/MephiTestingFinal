@@ -39,18 +39,14 @@ public class WikipediaAPITests {
 
     @Test(description = "API: Search for '" + APPIUM + "' returns relevant results")
     public void testSearchAppium() {
-        Response response = given()
+        given()
                 .when()
                 .get(BASE_URL + PAGE_SUMMARY + APPIUM)
                 .then()
                 .statusCode(200)
-                .extract().response();
+                .body(LANG, equalTo(EN))
+                .body(TITLE, containsString(APPIUM));
 
-        String title = response.jsonPath().getString(TITLE);
-        String lang = response.jsonPath().getString(LANG);
-
-        Assert.assertEquals(lang, EN, String.format("Language is not '%s'", EN));
-        Assert.assertTrue(title.toLowerCase().contains(APPIUM.toLowerCase()), String.format("Title does not contain '%s'", APPIUM));
     }
 
     @Test(description = "API: Search for '" + JAVA_RU + "' on Russian Wikipedia")
