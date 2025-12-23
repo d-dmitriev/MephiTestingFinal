@@ -37,11 +37,9 @@ public class WikipediaMobilePage {
 
     public void backFromArticle() {
         if (existsById(driver, "page_find_in_article")) {
-            driver.navigate().back();
-            sleep();
-            driver.navigate().back();
-            sleep();
-            driver.navigate().back();
+            while (!existsById(driver, "nav_tab_explore")) {
+                driver.navigate().back();
+            }
         }
     }
 

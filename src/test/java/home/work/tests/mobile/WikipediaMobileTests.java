@@ -40,7 +40,6 @@ public class WikipediaMobileTests {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         page = new WikipediaMobilePage(driver);
 
-        page.backFromArticle();
         page.openSearch();
         page.deleteHistory();
     }
@@ -72,28 +71,31 @@ public class WikipediaMobileTests {
         );
     }
 
-//    @Test
-//    public void testLanguageChange() {
-//        page.startMain();
-//        sleep();
-//        WebElement language = waitBy(wait, AppiumBy.id("org.wikipedia.alpha:id/page_language"));
-//        language.click();
-//        WebElement search = waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[3]"));
-//        sleep();
-//        search.click();
-//        WebElement text = waitBy(wait, AppiumBy.xpath("//android.widget.EditText"));
-//        text.sendKeys("russian");
-//        sleep();
-//        WebElement firstElement = waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.view.View"));
-//        firstElement.click();
-//        String title = page.getArticleTitle("Ява");
-//        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Appium'");
-////        Assert.assertTrue(
-////                driver.findElement(By.xpath("//android.widget.TextView[@text='All languages']")).isDisplayed()
-////        );
-//        sleep();
-//        driver.navigate().back();
-//    }
+    @Test
+    public void testLanguageChange() {
+        page.startMain();
+        sleep();
+        page.changeLanguageEn();
+        page.searchFor("Java");
+        page.clickFirstResult();
+        WebElement language = waitBy(wait, AppiumBy.id("org.wikipedia.alpha:id/page_language"));
+        language.click();
+        WebElement search = waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View[3]"));
+        sleep();
+        search.click();
+        WebElement text = waitBy(wait, AppiumBy.xpath("//android.widget.EditText"));
+        text.sendKeys("russian");
+        sleep();
+        WebElement firstElement = waitBy(wait, AppiumBy.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.view.View"));
+        firstElement.click();
+        String title = page.getArticleTitle("Ява");
+        Assert.assertTrue(title.toLowerCase().contains("ява"), "Article title should contain 'Appium'");
+//        Assert.assertTrue(
+//                driver.findElement(By.xpath("//android.widget.TextView[@text='All languages']")).isDisplayed()
+//        );
+        sleep();
+        driver.navigate().back();
+    }
 
     @Test
     public void testSearchRu() {
@@ -111,6 +113,7 @@ public class WikipediaMobileTests {
 //    @AfterClass
     @AfterMethod
     public void tearDown() {
+        page.backFromArticle();
         if (driver != null) driver.quit();
     }
 }

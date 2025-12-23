@@ -23,7 +23,8 @@ public class Helpers {
     }
 
     public static boolean existsById(WebDriver driver, String id) {
-        System.out.println("!!! exists " + id);
-        return !driver.findElements(AppiumBy.id(id)).isEmpty();
+        var r = !driver.findElements(AppiumBy.id(id)).isEmpty();
+        System.out.println("!!! exists " + id + " " + r);
+        return r;
     }
 }
