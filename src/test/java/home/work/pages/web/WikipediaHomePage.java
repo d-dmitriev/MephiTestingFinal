@@ -8,11 +8,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 import static home.work.utils.Helpers.waitBy;
 
 public class WikipediaHomePage {
     public static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
+
+    public static final By FIRST_SUGGESTION = By.cssSelector("div.suggestions-dropdown a");
+    public static final By SUGGESTIONS_DROPDOWN = By.cssSelector(".suggestions-dropdown");
+    public static final By SUGGESTION_LINK = By.cssSelector("a.suggestion-link");
 
     public static final By SEARCH_INPUT = By.id("searchInput");
     public static final By PAGE_HEADING = By.id("firstHeading");
@@ -51,5 +56,28 @@ public class WikipediaHomePage {
         WebElement langLink = driver.findElement(By.cssSelector("a[href='//" + langCode + WIKIPEDIA_ORG +"/']"));
         langLink.click();
         wait.until(ExpectedConditions.urlContains(langCode + WIKIPEDIA_ORG));
+    }
+
+    public boolean isFooterLinkPresent(String linkText) {
+        try {
+            return waitBy(wait, By.xpath("//footer//a[normalize-space()='" + linkText + "']")).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void enterSearchQuery(String query) {
+        WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(SEARCH_INPUT));
+        searchInput.clear(); // на случай, если что-то уже введено
+        searchInput.sendKeys(query);
+    }
+
+    public List<WebElement> listSuggestions() {
+        waitBy(wait, SUGGESTIONS_DROPDOWN);
+        return driver.findElements(SUGGESTION_LINK);
+    }
+
+    public void clickFirstSuggestion() {
+        waitBy(wait, FIRST_SUGGESTION).click();
     }
 }

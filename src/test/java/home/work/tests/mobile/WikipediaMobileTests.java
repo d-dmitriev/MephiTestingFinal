@@ -48,7 +48,8 @@ public class WikipediaMobileTests {
         page.scrollAndCheckSection(SEARCH_ETYMOLOGY);
         // Проверим, что элемент с текстом "History" теперь виден
         Assert.assertTrue(
-                driver.findElement(By.xpath("//*[contains(@text, '" + SEARCH_ETYMOLOGY + "')]")).isDisplayed()
+                driver.findElement(By.xpath("//*[contains(@text, '" + SEARCH_ETYMOLOGY + "')]")).isDisplayed(),
+                String.format("Section '%s' should be visible after scrolling", SEARCH_ETYMOLOGY)
         );
     }
 
