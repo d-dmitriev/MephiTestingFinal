@@ -7,12 +7,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 public class WikipediaAPITests {
 
-    private static final String BASE_URL = "https://en.wikipedia.org/api/rest_v1";
     public static final String TITLE = "title";
     public static final String LANG = "lang";
     public static final String MAIN_PAGE = "Main Page";
@@ -22,6 +25,9 @@ public class WikipediaAPITests {
     public static final String APPIUM = "Appium";
     public static final String USER_AGENT_NAME = "User-Agent";
     public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
+    public static final String BASE_URL = "https://en.wikipedia.org/api/rest_v1";
+    public static final String BASE_URL_RU = "https://ru.wikipedia.org/api/rest_v1";
+    public static final String PAGE_SUMMARY = "/page/summary/";
 
     @BeforeSuite
     public void setup() {
@@ -35,7 +41,7 @@ public class WikipediaAPITests {
     public void testSearchAppium() {
         Response response = given()
                 .when()
-                .get(BASE_URL + "/page/summary/" + APPIUM)
+                .get(BASE_URL + PAGE_SUMMARY + APPIUM)
                 .then()
                 .statusCode(200)
                 .extract().response();
@@ -47,13 +53,11 @@ public class WikipediaAPITests {
         Assert.assertTrue(title.toLowerCase().contains(APPIUM.toLowerCase()), String.format("Title does not contain '%s'", APPIUM));
     }
 
-    @Test(description = "API: Search for '" +  JAVA_RU + "' on Russian Wikipedia")
+    @Test(description = "API: Search for '" + JAVA_RU + "' on Russian Wikipedia")
     public void testSearchJavaRu() {
-        String ruApiUrl = "https://ru.wikipedia.org/api/rest_v1/page/summary/" + JAVA_RU;
-
         given()
                 .when()
-                .get(ruApiUrl)
+                .get(BASE_URL_RU + PAGE_SUMMARY + JAVA_RU)
                 .then()
                 .statusCode(200)
                 .body(LANG, equalTo(RU))
@@ -64,7 +68,7 @@ public class WikipediaAPITests {
     public void testMainPageExists() {
         given()
                 .when()
-                .get(BASE_URL + "/page/summary/Main_Page")
+                .get(BASE_URL + PAGE_SUMMARY + URLEncoder.encode(MAIN_PAGE, StandardCharsets.UTF_8))
                 .then()
                 .statusCode(200)
                 .body(TITLE, equalTo(MAIN_PAGE));
