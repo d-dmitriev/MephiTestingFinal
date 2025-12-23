@@ -9,8 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Helpers {
     public static WebElement waitBy(WebDriverWait wait, By by) {
-        System.out.println("!!! waitBy " + by.toString());
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
@@ -24,11 +22,6 @@ public class Helpers {
 
     public static boolean existsById(WebDriver driver, String id) {
         var r = !driver.findElements(AppiumBy.id(id)).isEmpty();
-        System.out.println("!!! exists " + id + " " + r);
         return r;
-    }
-
-    public static boolean isElementPresent(WebDriver driver, By by) {
-        return !driver.findElements(by).isEmpty();
     }
 }
