@@ -61,14 +61,18 @@ mvn test -Dtest=WikipediaWebTests
 **Предварительно:**
 
 1. Запустите эмулятор Android (например, через AVD Manager).
+
 ```bash
 emulator -avd Pixel_9
 ```
 
-2. Убедитесь, что приложение **Wikipedia Alpha** установлено. Скачать последнюю версию можно [тут](https://github.com/wikimedia/apps-android-wikipedia/releases/tag/latest):
+2. Убедитесь, что приложение **Wikipedia Alpha** установлено. Скачать последнюю версию
+   можно [тут](https://github.com/wikimedia/apps-android-wikipedia/releases/tag/latest):
+
 ```bash
 adb -s emulator-5554 install app-alpha-universal-release.apk
 ```
+
 3. Запустите **Appium Server** (через Appium Desktop или CLI: `appium`).
 
 ```bash
