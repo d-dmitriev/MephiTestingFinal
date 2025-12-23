@@ -36,10 +36,6 @@ public class WikipediaMobilePage {
     }
 
     public void scrollAndCheckSection(String sectionText) {
-//        driver.findElement(AppiumBy.androidUIAutomator(
-//                "new UiScrollable(new UiSelector().scrollable(true)).scrollForward();" +
-//                        "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
-//        ));
         driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" +
                 ".scrollIntoView(new UiSelector().text(\"" + sectionText + "\"))"
         ));

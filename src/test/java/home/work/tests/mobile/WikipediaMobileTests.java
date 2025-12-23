@@ -2,6 +2,7 @@ package home.work.tests.mobile;
 
 import home.work.utils.MobileDriverFactory;
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -9,6 +10,8 @@ import home.work.pages.mobile.WikipediaMobilePage;
 
 import java.net.MalformedURLException;
 import java.time.Duration;
+
+import static home.work.utils.Helpers.sleep;
 
 public class WikipediaMobileTests {
     private AppiumDriver driver;
@@ -30,18 +33,19 @@ public class WikipediaMobileTests {
         Assert.assertTrue(title.toLowerCase().contains("appium"), "Article title should contain 'Appium'");
     }
 
-//    @Test
-//    public void testScrollToSection() {
-//        page.skipOnboarding();
-//        page.clickSearch();
-//        page.searchFor("Java");
-//        page.skipPopup();
-//        page.scrollAndCheckSection("Etymology");
-//        // Проверим, что элемент с текстом "History" теперь виден
-//        Assert.assertTrue(
-//                driver.findElement(By.xpath("//*[contains(@text, 'Etymology')]")).isDisplayed()
-//        );
-//    }
+    @Test
+    public void testScrollToSection() {
+        page.skipOnboarding();
+        page.clickSearch();
+        page.searchFor("Java");
+        page.skipPopup();
+        sleep();
+        page.scrollAndCheckSection("Etymology");
+        // Проверим, что элемент с текстом "History" теперь виден
+        Assert.assertTrue(
+                driver.findElement(By.xpath("//*[contains(@text, 'Etymology')]")).isDisplayed()
+        );
+    }
 
     @Test
     public void testLanguageChange() {
