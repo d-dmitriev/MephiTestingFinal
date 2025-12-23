@@ -11,4 +11,10 @@
             <class name="home.work.tests.mobile.WikipediaMobileTests"/>
         </classes>
     </test>
+
+    <test name="APITests">
+        <classes>
+            <class name="home.work.tests.api.WikipediaAPITests"/>
+        </classes>
+    </test>
 </suite>
