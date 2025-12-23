@@ -6,7 +6,6 @@ import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -18,10 +17,12 @@ import java.time.Duration;
 import java.util.Map;
 
 import static home.work.utils.DriverFactory.sleep;
+import static home.work.utils.Helpers.waitBy;
 
 public class WikipediaMobileTests {
     private AppiumDriver driver;
     private WikipediaMobilePage page;
+    private WebDriverWait wait;
 
 //    @BeforeClass
     @BeforeMethod
@@ -36,6 +37,7 @@ public class WikipediaMobileTests {
         caps.setCapability("noReset", true);
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), caps);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         page = new WikipediaMobilePage(driver);
     }
 
@@ -44,45 +46,50 @@ public class WikipediaMobileTests {
         page.startMain();
         sleep();
         page.searchFor("Appium");
-        sleep();
+//        sleep();
         page.clickFirstResult();
-        sleep();
+//        sleep();
         String title = page.getArticleTitle();
         Assert.assertTrue(title.toLowerCase().contains("appium"), "Article title should contain 'Appium'");
     }
 
-//    @Test
-//    public void testScrollToSection() {
-////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-////        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("id")));
-//        page.startMain();
+    @Test
+    public void testScrollToSection() {
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("id")));
+        page.startMain();
+        sleep();
+        page.searchFor("Java");
 //        sleep();
-//        page.searchFor("Java");
-//        sleep();
-//        page.clickFirstResult();
-//        sleep();
-//        page.scrollAndCheckSection("Etymology");
-//        // Проверим, что элемент с текстом "History" теперь виден
-//        Assert.assertTrue(
-//                driver.findElement(By.xpath("//*[contains(@text, 'Etymology')]")).isDisplayed()
-//        );
-//    }
+        page.clickFirstResult();
+        sleep();
+        page.scrollAndCheckSection("Etymology");
+        // Проверим, что элемент с текстом "History" теперь виден
+        Assert.assertTrue(
+                driver.findElement(By.xpath("//*[contains(@text, 'Etymology')]")).isDisplayed()
+        );
+    }
 
-//    @Test
-//    public void testLanguageChange() {
-//        Map<String, Object> params = Map.of("component", "org.wikipedia.alpha/org.wikipedia.main.MainActivity");
-//        driver.executeScript("mobile: startActivity", params);
-//        sleep();
-//        // Пример: переключиться на русский (требует доработки под UI)
-//        // Для упрощения — опустим или сделаем более простой сценарий
-//        // Вместо этого — проверим, что меню открывается
+    @Test
+    public void testLanguageChange() {
+        Map<String, Object> params = Map.of("component", "org.wikipedia.alpha/org.wikipedia.main.MainActivity");
+        driver.executeScript("mobile: startActivity", params);
+        sleep();
+        // Пример: переключиться на русский (требует доработки под UI)
+        // Для упрощения — опустим или сделаем более простой сценарий
+        // Вместо этого — проверим, что меню открывается
+        WebElement language = waitBy(wait, AppiumBy.id("org.wikipedia.alpha:id/page_language"));
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement language = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("org.wikipedia.alpha:id/page_language")));
 //        WebElement language = driver.findElement(By.id("org.wikipedia.alpha:id/page_language"));
-//        language.click();
-//        sleep();
-//        Assert.assertTrue(
-//                driver.findElement(By.xpath("//android.widget.TextView[@text='All languages']")).isDisplayed()
-//        );
-//    }
+        language.click();
+        sleep();
+        Assert.assertTrue(
+                driver.findElement(By.xpath("//android.widget.TextView[@text='All languages']")).isDisplayed()
+        );
+        sleep();
+        driver.navigate().back();
+    }
 
 //    @AfterClass
     @AfterMethod

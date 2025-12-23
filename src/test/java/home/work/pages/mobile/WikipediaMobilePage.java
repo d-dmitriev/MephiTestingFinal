@@ -2,7 +2,6 @@ package home.work.pages.mobile;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.By;
@@ -12,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Map;
+
+import static home.work.utils.Helpers.waitBy;
 
 public class WikipediaMobilePage {
     private AppiumDriver driver;
@@ -50,12 +51,18 @@ public class WikipediaMobilePage {
     }
 
     public void clickFirstResult() {
-        WebElement firstResult = driver.findElement(By.xpath("(//android.widget.TextView[@resource-id='org.wikipedia.alpha:id/page_list_item_title'])[1]"));
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement firstResult = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("page_list_item_title")));
+        var firstResult = waitBy(wait, AppiumBy.id("page_list_item_title"));
+//        WebElement firstResult = driver.findElement(By.xpath("(//android.widget.TextView[@resource-id='org.wikipedia.alpha:id/page_list_item_title'])[1]"));
         firstResult.click();
     }
 
     public String getArticleTitle() {
-        WebElement title = driver.findElement(By.xpath("(//android.widget.TextView[@text='Appium'])[1]"));
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement title = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.xpath("(//android.widget.TextView[@text='Appium'])[1]")));
+        var title = waitBy(wait, AppiumBy.xpath("(//android.widget.TextView[@text='Appium'])[1]"));
+//        WebElement title = driver.findElement(By.xpath("(//android.widget.TextView[@text='Appium'])[1]"));
         return title.getText();
     }
 
