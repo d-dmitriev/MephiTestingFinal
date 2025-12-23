@@ -45,7 +45,7 @@ public class WikipediaMobilePage {
     }
 
     public String getArticleTitle(String text) {
-        var title = waitBy(wait, By.xpath("//android.webkit.WebView[@text=\"" + text + "\"]"));
+        var title = waitBy(wait, By.xpath("//android.widget.TextView[@text=\"" + text + "\"]"));
         return title.getText();
     }
 
