@@ -67,7 +67,7 @@ public class WikipediaHomePage {
     }
 
     public void enterSearchQuery(String query) {
-        WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(SEARCH_INPUT));
+        WebElement searchInput = waitBy(wait, SEARCH_INPUT);
         searchInput.clear(); // на случай, если что-то уже введено
         searchInput.sendKeys(query);
     }
