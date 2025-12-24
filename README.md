@@ -121,6 +121,7 @@ target/surefire-reports/
 ├── emailable-report.html
 └── *.xml
 ```
+Отчет [emailable-report.html](target/surefire-reports/emailable-report.html) приложен к поекту.
 
 > 💡 Вы можете открыть index.html в браузере для просмотра результатов.
 
