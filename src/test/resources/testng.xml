@@ -17,4 +17,8 @@
             <class name="home.work.tests.api.WikipediaAPITests"/>
         </classes>
     </test>
+
+    <listeners>
+        <listener class-name="home.work.utils.DescriptionListener" />
+    </listeners>
 </suite>
