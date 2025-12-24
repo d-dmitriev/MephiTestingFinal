@@ -19,6 +19,6 @@
     </test>
 
     <listeners>
-        <listener class-name="home.work.utils.DescriptionListener" />
+        <listener class-name="home.work.utils.DescriptionListener"/>
     </listeners>
 </suite>

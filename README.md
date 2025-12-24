@@ -121,7 +121,9 @@ target/surefire-reports/
 ├── emailable-report.html
 └── *.xml
 ```
-Отчет [emailable-report.html](target/surefire-reports/emailable-report.html) приложен к поекту ([открыть](https://htmlpreview.github.io/?https://raw.githubusercontent.com/d-dmitriev/MephiTestingFinal/refs/heads/master/target/surefire-reports/emailable-report.html)).
+
+Отчет [emailable-report.html](target/surefire-reports/emailable-report.html) приложен к
+поекту ([открыть](https://htmlpreview.github.io/?https://raw.githubusercontent.com/d-dmitriev/MephiTestingFinal/refs/heads/master/target/surefire-reports/emailable-report.html)).
 
 > 💡 Вы можете открыть index.html в браузере для просмотра результатов.
 
