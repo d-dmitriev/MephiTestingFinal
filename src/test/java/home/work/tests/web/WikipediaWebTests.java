@@ -5,6 +5,7 @@ import home.work.pages.web.WikipediaHomePage;
 import home.work.utils.WebDriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,65 +33,81 @@ public class WikipediaWebTests {
 
     @Test
     public void testHomePageLoads() {
+        Reporter.log("Opening Wikipedia home page", true);
         homePage.open();
         Assert.assertTrue(homePage.isSearchInputVisible(), "Search input should be visible");
+        Reporter.log("Wikipedia home page loaded successfully", true);
     }
 
     @Test
     public void testSearchFunctionality() {
+        Reporter.log("Searching for '" + SEARCH_SELENIUM + "'", true);
         homePage.open();
         homePage.searchFor(SEARCH_SELENIUM);
         Assert.assertTrue(homePage.getPageHeader().contains(SEARCH_SELENIUM), String.format("Page title should contain '%s'", SEARCH_SELENIUM));
+        Reporter.log("Search for '" + SEARCH_SELENIUM + "' returned relevant results", true);
     }
 
     @Test
     public void testLanguageSwitch() {
+        Reporter.log("Switching language to Russian", true);
         homePage.open();
         homePage.selectLanguage(LANG_CODE_RU);
         Assert.assertTrue(driver.getCurrentUrl().contains(RU_WIKIPEDIA_ORG), String.format("URL should contain '%s'", RU_WIKIPEDIA_ORG));
+        Reporter.log("Language switched to Russian successfully", true);
     }
 
     @Test
     public void testMultipleSearches() {
+        Reporter.log("Performing multiple searches", true);
         homePage.open();
         homePage.searchFor(SEARCH_JAVA);
         Assert.assertTrue(homePage.getPageHeader().contains(SEARCH_JAVA), "Page header should reflect the first search query");
-
+        Reporter.log("First search for '" + SEARCH_JAVA + "' completed", true);
         homePage.open();
         homePage.searchFor(SEARCH_PYTHON);
         Assert.assertTrue(homePage.getPageHeader().contains(SEARCH_PYTHON), "Page header should reflect the second search query");
+        Reporter.log("Second search for '" + SEARCH_PYTHON + "' completed", true);
     }
 
     @Test
     public void testSearchSuggestionsAppear() {
+        Reporter.log("Checking search suggestions for query '" + SEARCH_JAVA + "'", true);
         homePage.open();
         homePage.enterSearchQuery(SEARCH_JAVA); // не нажимаем Enter, только ввод
         var suggestions = homePage.listSuggestions();
         Assert.assertFalse(suggestions.isEmpty(), "Search suggestions should appear");
+        Reporter.log("Search suggestions appeared successfully for query '" + SEARCH_JAVA + "'", true);
     }
 
     @Test
     public void testClickFirstSearchSuggestion() {
+        Reporter.log("Clicking the first search suggestion for query '" + SEARCH_PYTHON + "'", true);
         homePage.open();
         homePage.enterSearchQuery(SEARCH_PYTHON);
         homePage.clickFirstSuggestion();
         Assert.assertTrue(homePage.getPageHeader().toLowerCase().contains(SEARCH_PYTHON.toLowerCase()), "Page header should reflect the first suggestion clicked");
+        Reporter.log("Clicked the first search suggestion successfully for query '" + SEARCH_PYTHON + "'", true);
     }
 
     @Test
     public void testFooterLinksExist() {
+        Reporter.log("Verifying footer links in English language", true);
         homePage.open();
         homePage.selectLanguage(LANG_CODE_EN);
         Assert.assertTrue(homePage.isFooterLinkPresent(TERMS_OF_USE), "Terms of Use link should be present in footer");
         Assert.assertTrue(homePage.isFooterLinkPresent(PRIVACY_POLICY), "Privacy Policy link should be present in footer");
+        Reporter.log("Footer links verified successfully in English language", true);
     }
 
     @Test
     public void testRussianHomePageTitle() {
+        Reporter.log("Verifying page title in Russian language", true);
         homePage.open();
         homePage.selectLanguage(LANG_CODE_RU);
         String title = driver.getTitle().toLowerCase();
         Assert.assertTrue(title.contains(WIKIPEDIA_RU) || title.contains(WIKIPEDIA), "Title should reflect Russian language");
+        Reporter.log("Page title verified successfully in Russian language", true);
     }
 
     @AfterMethod

@@ -2,6 +2,7 @@ package home.work.tests.api;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -37,6 +38,7 @@ public class WikipediaAPITests {
 
     @Test(description = "API: Search for '" + APPIUM + "' returns relevant results")
     public void testSearchAppium() {
+        Reporter.log("Searching for '" + APPIUM + "' on English Wikipedia", true);
         given()
                 .when()
                 .get(BASE_URL + PAGE_SUMMARY + APPIUM)
@@ -44,11 +46,12 @@ public class WikipediaAPITests {
                 .statusCode(200)
                 .body(LANG, equalTo(EN))
                 .body(TITLE, containsString(APPIUM));
-
+        Reporter.log("Search for '" + APPIUM + "' returned relevant results", true);
     }
 
     @Test(description = "API: Search for '" + JAVA_RU + "' on Russian Wikipedia")
     public void testSearchJavaRu() {
+        Reporter.log("Searching for '" + JAVA_RU + "' on Russian Wikipedia", true);
         given()
                 .when()
                 .get(BASE_URL_RU + PAGE_SUMMARY + JAVA_RU)
@@ -56,15 +59,18 @@ public class WikipediaAPITests {
                 .statusCode(200)
                 .body(LANG, equalTo(RU))
                 .body(TITLE, containsString(JAVA_RU));
+        Reporter.log("Search for '" + JAVA_RU + "' returned relevant results", true);
     }
 
     @Test(description = "API: Main page exists and has correct title")
     public void testMainPageExists() {
+        Reporter.log("Checking that the main page exists and has the correct title: " + MAIN_PAGE, true);
         given()
                 .when()
                 .get(BASE_URL + PAGE_SUMMARY + URLEncoder.encode(MAIN_PAGE, StandardCharsets.UTF_8))
                 .then()
                 .statusCode(200)
                 .body(TITLE, equalTo(MAIN_PAGE));
+        Reporter.log("Main page exists and has the correct title: " + MAIN_PAGE, true);
     }
 }
